@@ -1,0 +1,177 @@
+@host = http://localhost:4004
+
+@path = /rest/cx-cns
+@path1= /odata/v4/cx-s4-odata
+@path2= /odata/v4/service-order
+@path3= /rest/order-post
+@path4= /Sales
+@path5= /serviceOrder
+@path6= /odata/v4/order-s4-service-order
+
+
+
+### getCaseByUUID
+GET {{host}}{{path}}/getCaseByUUID(caseId='dbada5ac-c334-11ee-9575-d588377de379')
+
+
+### createCase
+POST {{host}}{{path}}/createCase
+Content-Type: application/json
+Accept: application/json
+
+{
+    "caseInfo": {
+        "subject": "Data sharing with third-party service providers AKP",
+        "priority": "01",
+        "origin": "MANUAL_DATA_ENTRY",
+        "caseType": "ZCAS",
+        "status": "04",
+        "escalationStatus": "ESCALATED",
+        "account":{
+            "id":"11ed6658-34c1-4aee-afdb-81dbbb010a00"
+        }
+    }
+}
+
+
+
+
+
+### getLeads
+GET {{host}}{{path}}/getLeads()
+
+### getLeadsById
+GET {{host}}{{path}}/getLeadById(leadId='f4d71009-7fbf-11ee-b2ed-bb145f6000a2')
+
+### getLeads
+GET {{host}}{{path}}/getLeads()
+
+### getLeadsById
+GET {{host}}{{path}}/getSuppliers()
+
+
+### ServiceOrder
+GET {{host}}{{path1}}/Suppliers
+
+### ServiceOrder
+PATCH {{host}}{{path1}}/Suppliers
+
+### ServiceOrder
+POST  {{host}}{{path1}}/Suppliers
+Content-Type: application/json
+
+{
+ "BusinessPartner": "11",
+"BusinessPartnerIsBlocked": true
+}
+
+
+### createServiceOrder
+POST {{host}}{{path2}}/createServiceOrder
+Content-Type: application/json
+
+{
+    "ServiceOrderType": "SVO1",
+    "ServiceOrderDescription": "1213:SO",
+    "SalesOrganization": "1710",
+    "DistributionChannel": "Y1",
+    "ServiceOrderIsReleased": "X",
+    "Division": "Z1",
+    "SoldToParty": "USCU-CUS89",
+    "ReferenceServiceContract": "7000000020",
+    "to_PersonResponsible": {
+        "results": [
+            {
+                "PersonResponsible": "9980002243"
+            }
+        ]
+    }
+}
+
+### createServiceOrder
+POST {{host}}{{path2}}/createServiceOrder
+Content-Type: application/json
+
+{
+    "ServiceOrderType": "SVO1",
+    "ServiceOrderDescription": "1213:SO",
+    "SalesOrganization": "1710",
+    "DistributionChannel": "Y1",
+    "ServiceOrderIsReleased": "X",
+    "Division": "Z1",
+    "SoldToParty": "USCU-CUS89",
+    "ReferenceServiceContract": "7000000020",
+    "to_PersonResponsible": {
+        "results": [
+            {
+                "PersonResponsible": "9980002243"
+            }
+        ]
+    }
+}
+//////////////////S4-Sales Order
+
+###
+GET {{host}}{{path4}}/SalesOrder
+Content-Type: application/json
+
+
+###
+POST {{host}}{{path3}}/Create_Order
+Content-Type: application/json
+
+{
+    "Order": 
+        {
+        "SalesOrderType": "OR",
+        "SalesOrganization": "1710",
+        "DistributionChannel": "10",
+        "OrganizationDivision": "00",
+        "SoldToParty": "1000180",
+        "PurchaseOrderByCustomer": "CAP Application-Mujeeb",
+        "CustomerPaymentTerms": "",
+        "to_Partner": [
+            {
+                "PartnerFunction": "SP",
+                "Customer": "1000187"
+            }
+        ],
+        "to_Item": [
+            {
+                "Material": "LXF001",
+                "RequestedQuantity": "10"
+            }
+        ]
+        }
+}
+
+//////////////////S4-Service Order
+
+###
+GET {{host}}{{path5}}/s4SO
+Content-Type: application/json
+
+
+###
+POST {{host}}{{path6}}/Create_S4ServiceOrder
+Content-Type: application/json
+
+{
+  "Order": {
+    "ServiceOrderType": "SVO1",
+    "ServiceOrderDescription": "1213:SO",
+    "SalesOrganization": "1710",
+    "DistributionChannel": "Y1",
+    "ServiceOrderIsReleased": "X",
+    "Division": "Z1",
+    "SoldToParty": "USCU-CUS89",
+    "ReferenceServiceContract": "7000000020",
+    "to_PersonResponsible": {
+      "results": [
+        {
+          "PersonResponsible": "9980002243"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "name": "cap-cx-api-consumption",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap-cloud-sdk/http-client": "^3.12.0",
+    "@sap-cloud-sdk/openapi": "^3.11.0",
+    "@sap-cloud-sdk/util": "^3.12.0",
+    "@sap/cds": "^7",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^1",
+    "@sap-cloud-sdk/openapi-generator": "^3.11.0",
+    "@sap/cds-dk": "^7"
+  },
+  "scripts": {
+    "start": "cds-serve"
+  },
+  "cds": {
+    "requires": {
+      "Lead.Service": {
+        "kind": "rest",
+        "model": "srv/resources/api-specs/SalesSvcCloudV2_lead"
+      },
+      "Case.Service": {
+        "kind": "rest",
+        "model": "srv/resources/api-specs/SalesSvcCloudV2_case"
+      },
+      "Service.Order._A2X_": {
+        "kind": "rest",
+        "model": "srv/external/API_SERVICE_ORDER_SRV"
+      },
+      "API_SERVICE_ORDER_SRV": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_SERVICE_ORDER_SRV",
+        "[development]": {
+          "credentials": {
+            "url": "https://my300047.s4hana.ondemand.com/sap/opu/odata/sap/API_SERVICE_ORDER_SRV/",
+            "username": "INBOUND_FOR_CUSTOMER360",
+            "password": "S4hanaIntegration12!",
+            "csrf": true,
+            "csrfInBatch": true
+          }
+        },
+        "[production]": {
+          "credentials": {
+            "path": "/s4hanacloud/sap/opu/odata/sap/API_SERVICE_ORDER_SRV/",
+            "destination": "S4HANACLOUD_SO",
+            "csrf": true,
+            "csrfInBatch": true
+          }
+        }
+      },
+      "API_BUSINESS_PARTNER": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_BUSINESS_PARTNER",
+        "[development]": {
+          "credentials": {
+            "url": "https://my300047.s4hana.ondemand.com/sap/opu/odata/sap/API_BUSINESS_PARTNER/",
+            "username": "INBOUND_FOR_CUSTOMER360",
+            "password": "S4hanaIntegration12!"
+          }
+        },
+        "[production]": {
+          "credentials": {
+            "path": "/s4hanacloud/sap/opu/odata/sap/API_BUSINESS_PARTNER/",
+            "destination": "S4HANACLOUD_SO"
+          }
+        }
+      },
+      "API_SALES_ORDER_SRV": {
+        "kind": "odata-v2",
+        "model": "srv/external/API_SALES_ORDER_SRV",
+        "[hybrid]": {
+          "credentials": {
+            "url": "https://my300047.s4hana.ondemand.com/sap/opu/odata/sap/API_SALES_ORDER_SRV",
+            "username": "INBOUND_FOR_CUSTOMER360",
+            "password": "S4hanaIntegration12!",
+            "csrf": true,
+            "csrfInBatch": true
+          }
+        },
+        "[production]": {
+          "credentials": {
+            "path": "/s4hanacloud/sap/opu/odata/sap/API_SALES_ORDER_SRV",
+            "destination": "S4HANACLOUD_SO",
+            "csrf": true,
+            "csrfInBatch": true
+          }
+        }
+      }
+    }
+  }
+}
