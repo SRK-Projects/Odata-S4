@@ -27,7 +27,6 @@ service CxS4ODATA {
     type object {}
 
     entity Suppliers    as projection on db.A_BusinessPartner;
-    entity ServiceOrder as projection on db.A_ServiceOrder;
     action createServiceOrder(caseInfo : object) returns object;
     entity salesOrder   as projection on db.A_SalesOrder;
 }
@@ -45,13 +44,17 @@ service OrderPostService {
     action Create_Order(Order : object) returns object;
 }
 
-//////////////////S4ServiceOrder////////////////////////////////////////////
-service S4ServiceOrder @(path: '/serviceOrder') {
-    entity s4SO  as projection on db.A_ServiceOrder;
-};
-service OrderS4ServiceOrder {
+/* S4 HANA Service Order                                                     */
+/*===========================================================================*/
+@protocol: ['odata-v4', 'rest']
+service S4ServiceOrder @(path: 'S4ServiceOrder') {
+    entity ServiceOrders  as projection on db.ServiceOrders {
+        *,
+        to_PersonResponsible
+    };
+    entity SOPersonResponsibles as projection on db.SOPersonResponsibles;
     @open
-    type object {};
-
-    action Create_S4ServiceOrder(Order : object) returns object;
-}
+    type OpenObj {};
+    action CreateS4ServiceOrder(OrderInfo: OpenObj) returns OpenObj;
+};
+/*===========================================================================*/

@@ -37,13 +37,13 @@
       "API_SERVICE_ORDER_SRV": {
         "kind": "odata-v2",
         "model": "srv/external/API_SERVICE_ORDER_SRV",
+        "csrf": true,
+        "csrfInBatch": true,
         "[development]": {
           "credentials": {
-            "url": "https://my300047.s4hana.ondemand.com/sap/opu/odata/sap/API_SERVICE_ORDER_SRV/",
+            "url": "https://my300047.s4hana.ondemand.com/sap/opu/odata/sap/API_SERVICE_ORDER_SRV",
             "username": "INBOUND_FOR_CUSTOMER360",
-            "password": "S4hanaIntegration12!",
-            "csrf": true,
-            "csrfInBatch": true
+            "password": "S4hanaIntegration12!"
           }
         },
         "[production]": {

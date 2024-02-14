@@ -6,7 +6,7 @@ const apiLead = require('./resources/api-clients/SalesSvcCloudV2_lead/index').Le
 const destinationName = 'CNS_MY1000231_DE';
 const destinationName1 = 'S4HANACLOUD_SO';
 const odatagetLeadById = require('../srv/Lead/getLeadById.js');
-const odatagetServiceOrder = require('../srv/utils/serviceS4Controller.js');// require('../srv/utils/serviceS4Controller.js)
+const apiS4Service = require('../srv/utils/serviceS4Controller.js');// require('../srv/utils/serviceS4Controller.js)
 const odatBP = require('../srv/utils/bpS4Controller.js');
 const odatagetSalesOrder = require('../srv/utils/salesS4Controller.js')
 
@@ -17,8 +17,9 @@ const S4HANACLOUD_SALESORDER = 'S4HANACLOUD_SALESORDER';
 module.exports = cds.service.impl(async function (srv) {
 
     const { Suppliers } = this.entities;
-    const { s4SO, Create_S4ServiceOrder } = this.entities;
+    // const { s4SO, Create_S4ServiceOrder } = this.entities;
     const { SalesOrder, Create_Order } = this.entities;
+    const { ServiceOrders, SOPersonResponsibles } = this.entities;
 
 
 
@@ -63,40 +64,23 @@ module.exports = cds.service.impl(async function (srv) {
         const odataResult2 = await leadController.getLeadById(req.data.leadId);///await odatagetLeadById(req.data.leadId)
         return odataResult2;
     });
-    ////////////////Start Service Order S4/HANA/////////////////////////////
-
-    srv.on('READ', 's4SO', async req => {
-        const odataResult2 = await odatagetServiceOrder.getServiceOrder(req)
-        return odataResult2;
+/* S4 HANA Service Order                                                     */
+/*===========================================================================*/
+    srv.on('READ', ServiceOrders, async req => {
+        return await apiS4Service.getServiceOrder(req.query)
     });
 
-    srv.on('Create_S4ServiceOrder', async (req) => {
-        // const odataResult2 = await odatagetServiceOrder.createServiceOrder(req)
-        // return odataResult2;
-        const order = await cds.connect.to('API_SERVICE_ORDER_SRV');
-        // Extract the Sales Order payload from the request data
-        const OrderData = req.data.Order;
-        const csrfToken = await getToken1()
-        // Map the POST request on remote service
-        // const SalesOrderResponse = await order.run(INSERT.into('SalesOrderService.SalesOrder', [OrderData]));
-
-        const SalesOrderResponse = await order.run({
-            headers: {
-                'x-csrf-token': csrfToken,
-            },
-            INSERT: 'S4ServiceOrder.s4SO',
-            data: [OrderData]
-        });
-
-        // Return the response
-        return SalesOrderResponse;
+    srv.on('POST', ServiceOrders, async(req)=>{
+        return await apiS4Service.createServiceOrder(req.data);
+    })
+    
+    srv.on('CreateS4ServiceOrder', async (req) => {
+        return await apiS4Service.createServiceOrder(req.data.OrderInfo);
     });
-    ////////////////End Service Order S4/HANA/////////////////////////////
-    ////////////////Start Sales Order S4/HANA/////////////////////////////
+/*===========================================================================*/
 
-    // Handle GET call
+    // Handle GET callx
     srv.on('READ', 'SalesOrder', async req => {
-
         const odataResult2 = await odatagetSalesOrder.getSalesOrder(req)
         return odataResult2;
     });
@@ -111,7 +95,7 @@ module.exports = cds.service.impl(async function (srv) {
     ////////////////Start BP S4/HANA/////////////////////////////
 
     srv.on('READ', Suppliers, async (req) => {
-        const odataResult2 = await odatBP.getSuppliers1(req)
+        const odataResult2 = await odatBP.getSuxppliers1(req)
         return odataResult2;
 
     });

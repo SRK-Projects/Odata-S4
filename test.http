@@ -5,7 +5,8 @@
 @path2= /odata/v4/service-order
 @path3= /rest/order-post
 @path4= /Sales
-@path5= /serviceOrder
+@pathServiceOData= /odata/v4/S4ServiceOrder
+@pathServiceRest= /rest/S4ServiceOrder
 @path6= /odata/v4/order-s4-service-order
 
 
@@ -145,19 +146,20 @@ Content-Type: application/json
         }
 }
 
-//////////////////S4-Service Order
-
-###
-GET {{host}}{{path5}}/s4SO
+#/* S4 HANA Service Order                                                     */
+#/*===========================================================================*/
+### Get Service Orders 
+GET {{host}}{{pathServiceOData}}/ServiceOrders
 Content-Type: application/json
 
+### Get Single Service Order
+GET {{host}}{{pathServiceOData}}/ServiceOrders?$filter=ServiceOrder eq '4000000000'
 
-###
-POST {{host}}{{path6}}/Create_S4ServiceOrder
+### Create Service Order via EntitySet call
+POST {{host}}{{pathServiceOData}}/ServiceOrders
 Content-Type: application/json
 
 {
-  "Order": {
     "ServiceOrderType": "SVO1",
     "ServiceOrderDescription": "1213:SO",
     "SalesOrganization": "1710",
@@ -166,12 +168,33 @@ Content-Type: application/json
     "Division": "Z1",
     "SoldToParty": "USCU-CUS89",
     "ReferenceServiceContract": "7000000020",
-    "to_PersonResponsible": {
-      "results": [
+    "to_PersonResponsible": [
         {
           "PersonResponsible": "9980002243"
         }
-      ]
-    }
-  }
+    ]
 }
+
+### Create Service Order action call
+POST {{host}}{{pathServiceRest}}/CreateS4ServiceOrder
+Content-Type: application/json
+
+{ 
+    "OrderInfo":{
+        "ServiceOrderType": "SVO1",
+        "ServiceOrderDescription": "1213:SO",
+        "SalesOrganization": "1710",
+        "DistributionChannel": "Y1",
+        "ServiceOrderIsReleased": "X",
+        "Division": "Z1",
+        "SoldToParty": "USCU-CUS89",
+        "ReferenceServiceContract": "7000000020",
+        "to_PersonResponsible": [
+            {
+            "PersonResponsible": "9980002243"
+            }
+        ]
+    }
+}
+
+#/*===========================================================================*/
