@@ -38,6 +38,7 @@ async function createSalesOrder(req) {
   //  const SalesOrderResponse = await order.run(INSERT.into('SalesOrderService.SalesOrder', [OrderData]));
 
     // Return the response
+    console.log('test');
     return SalesOrderResponse;
 }
 
